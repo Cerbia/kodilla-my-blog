@@ -19,7 +19,7 @@
     clickedElement.classList.add('active');
 
     /* find and hide active article */
-    const activeArticle = document.querySelector('.posts article.active') as HTMLLinkElement;
+    const activeArticle = document.querySelector('.posts article.active') as HTMLElement;
     if (activeArticle) activeArticle.classList.remove('active');
 
     /* find id of article related to clicked link, then find it and show */
