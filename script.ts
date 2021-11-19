@@ -31,66 +31,70 @@
   const generateTitleLinks = (customSelector: string = ''): void => {
 
     /* find and empty title list */
-    const titleList = document.querySelector(selectorTitleList);
+    const titleList = document.querySelector(selectorTitleList) as HTMLElement;
+
     titleList.innerHTML = '';
 
     /* prepare variable for storing all the title links */
-    let html = '';
+    let html: string = '';
 
     /* find all articles and loop through each of them */
-    const articles = document.querySelectorAll(selectorArticle + customSelector);
+    const articles = document.querySelectorAll(selectorArticle + customSelector) as NodeListOf<HTMLElement>;
+
     for (let article of articles) {
 
       /* find id of the article */
-      const articleID = article.getAttribute('id');
+      const articleID: string | null = article.getAttribute('id');
 
       /* find elem that holds the title and retrieve it */
-      const articleTitle = article.querySelector(selectorTitle).innerHTML;
+      const articleTitle = <string>article.querySelector(selectorTitle)?.innerHTML;
 
       /* create HTML of the link */
-      const linkHTML = '<li><a href="#' + articleID + '"><span>' + articleTitle + '</span></a></li>';
+      const linkHTML: string = '<li><a href="#' + articleID + '"><span>' + articleTitle + '</span></a></li>';
 
       /* insert link into html variable */
       html = html + linkHTML;
 
     }
 
+
+
     /* add all the links from html variable to titleList */
     titleList.insertAdjacentHTML('afterbegin', html);
 
     /* find created links and add listeners to them */
-    const links = document.querySelectorAll('.titles a');
+    const links = document.querySelectorAll('.titles a') as NodeListOf<HTMLElement>;
     for (let link of links) {
       link.addEventListener('click', titleClickHandler);
     }
   }
 
 
-  const generateTags = () => {
+  const generateTags = (): void => {
 
     /* create a new array for holding unique tag names */
-    let allTags = [];
+    let allTags: string[] = [];
 
     /* find all articles and loop through */
-    const articles = document.querySelectorAll(selectorArticle);
+    const articles = document.querySelectorAll(selectorArticle) as NodeListOf<HTMLElement>;
     for (let article of articles) {
 
       /* find div for storing tags  */
-      const tagWrapper = article.querySelector(selectorArticleTags);
+      const tagWrapper = article.querySelector(selectorArticleTags) as HTMLElement;
 
       /* prepare variable for storing all the tag links */
-      let html = '';
+      let html: string = '';
 
       /* get info about tags from data-tags attribute */
-      const dataTag = article.getAttribute('data-tags');
+      const dataTag = article.getAttribute('data-tags') as string;
 
       /* split tags into array */
-      const tagsArray = dataTag.split(' ');
+      const tagsArray: string[] = dataTag.split(' ');
 
       /* loop through tags */
       for (let tag of tagsArray) {
         /* generate HTML of the link */
-        const linkHTML = '<li><a href="#tag-' + tag + '">' + tag + '</a></li>';
+        const linkHTML: string = '<li><a href="#tag-' + tag + '">' + tag + '</a></li>';
 
         /* add generated code to html variable */
         html = html + linkHTML;
@@ -107,10 +111,10 @@
     }
 
     /* find tags list in sidebar */
-    const tagList = document.querySelector(selectorTagsList);
+    const tagList = document.querySelector(selectorTagsList) as HTMLElement;
 
     /* create variable for all links */
-    let allTagsHTML = '';
+    let allTagsHTML: string = '';
 
     /* loop for each tag in unique tags list */
     for (let tag of allTags) {
@@ -121,20 +125,20 @@
     tagList.innerHTML = allTagsHTML;
   }
 
-  const generateAuthors = () => {
+  const generateAuthors = (): void => {
 
     /* create list of unique authors */
-    let allAuthors = [];
+    let allAuthors: string[] = [];
 
     /* find all articles and loop through */
-    const articles = document.querySelectorAll(selectorArticle);
+    const articles = document.querySelectorAll(selectorArticle) as NodeListOf<HTMLElement>;
     for (let article of articles) {
 
       /* find wrapper for author in article elem */
-      const articleAuthor = article.querySelector(selectorArticleAuthor);
+      const articleAuthor = article.querySelector(selectorArticleAuthor) as HTMLElement;
 
       /* get article data-author attribute */
-      const author = article.getAttribute('data-author');
+      const author = article.getAttribute('data-author') as string;
 
       /* check if author is not already in the list, if not -> push it */
       if (!allAuthors.includes(author)) {
@@ -142,12 +146,12 @@
       }
 
       /* create author link and add it  to article */
-      const html = 'by <a href="#author-' + author + '">' + author + '</a>'
+      const html: string = 'by <a href="#author-' + author + '">' + author + '</a>'
       articleAuthor.insertAdjacentHTML('beforeend', html);
     }
 
     /* find wrapper for author links in sidebar */
-    const authorList = document.querySelector(selectorAuthorsList)
+    const authorList = document.querySelector(selectorAuthorsList) as HTMLElement;
 
     /* loop through unique authors and generate author links in in sidebar*/
     for (let author of allAuthors) {
